@@ -6,12 +6,12 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/25 23:09:37 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/18 11:40:37 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 20:27:08 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef	FD_PRINTF_H
-#define	FD_PRINTF_H
+#ifndef FD_PRINTF_H
+# define FD_PRINTF_H
 
 # include <unistd.h>
 # include <stdarg.h>

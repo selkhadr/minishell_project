@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:28:30 by mel-moun          #+#    #+#             */
-/*   Updated: 2023/07/23 15:06:58 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:50:21 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,5 +39,4 @@ void	prompt(t_token **all, t_all **glo, char **envp)
 		}
 		error_message(0, all);
 	}
-	(void)envp;
 }

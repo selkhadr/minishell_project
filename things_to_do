@@ -1,2 +1,10 @@
 export alphabetic
 export vs Env 
+cd -
+unset function
+
+minishell> cd Desktop/last_minishell
+/usr/bin/cd: line 4: cd: Desktop/last_minishell: No such file or directory
+minishell> pwd
+/Users/selkhadr/Desktop/last_minishell
+minishell> 

@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 18:15:33 by mel-moun          #+#    #+#             */
-/*   Updated: 2023/07/23 15:14:09 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 21:00:38 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <errno.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <dirent.h>
@@ -286,4 +287,5 @@ void    take_env(char **arr);
 void    ft_lstadd_back(t_env *new);
 t_env    *ft_lstnew(char *content);
 int		mer_strncmp(char *ss1, char *ss2, int n);
+int	valid_identifier(char *str);
 #endif

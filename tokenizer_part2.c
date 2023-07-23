@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_part2.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mel-moun <mel-moun@student.42.fr>          +#+  +:+       +#+        */
+/*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:50:27 by mel-moun          #+#    #+#             */
-/*   Updated: 2023/07/19 15:41:18 by mel-moun         ###   ########.fr       */
+/*   Updated: 2023/07/23 19:00:26 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ void	parsing_part_two(t_token **all, t_all **glo)
 {
 	remove_for(all);
 	final_thing(all, glo);
-	print_nodes(*glo);
-	printf("\n");
+	// print_nodes(*glo);
+	// printf("\n");
 	deallocating(all);
 	// printf("hi\n");
 	// deallocating1(glo);

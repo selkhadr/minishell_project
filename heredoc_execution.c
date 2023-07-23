@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 09:51:40 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 14:13:02 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 17:57:35 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void    read_fnct(t_all *glo, int *pip, int i)
 	join = NULL;
 	tmp = NULL;
 	close (pip[0]);
-	signal (SIGQUIT, SIG_DFL);
+	signal (SIGQUIT, SIG_IGN);
 	signal (SIGINT, SIG_DFL);
 	del = 0;
 	if (search_quotes(glo->file_names[i]) || search_quotes(glo->file_names[i]))

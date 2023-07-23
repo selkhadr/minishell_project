@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 20:00:29 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 15:13:59 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:34:49 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,19 @@ char	*path_with_slash(char *cmd)
 	if (access(cmd, F_OK) == -1)
 	{
 		fd_printf(2, "minishell: %s: No such file or directory\n", cmd);
-		exit (1);
+		exit (127);
+	}
+	if (access(cmd, X_OK) == -1)
+	{
+		fd_printf(2, "minishell: %s: Permission denied\n", cmd);
+		exit (126);
 	}
 	return (cmd);
 }
 
 void	check_path(t_all *all)
 {
+	char	*tmp;
 	if (!all || !all->cmds || !all->cmds[0])
 		return ;
 	if (check_empty_cmd(all->cmds[0]))
@@ -49,8 +55,9 @@ void	check_path(t_all *all)
 		all->path = path_with_slash(all->cmds[0]);
 	else
 	{
-		all->path = normal_path(all->cmds[0], expanded_value("PATH"));
-		if (!all->path)
+		tmp = expanded_value("PATH");
+		all->path = normal_path(all->cmds[0], tmp);
+		if (!all->path) 
 		{
 			fd_printf(2, "minishell: %s: command not found\n", all->cmds[0]);
 			exit (127);
@@ -87,6 +94,7 @@ char	*normal_path(char *cmd, char *path)
 	char	*valid_cmd;
 
 	paths = normal_path_sequel(cmd, path);
+	free (path);
 	i = 0;
 	while (paths[i])
 	{

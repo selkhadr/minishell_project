@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 17:21:56 by mel-moun          #+#    #+#             */
-/*   Updated: 2023/07/21 17:54:39 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:47:23 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*expand_normal(int count, int *i)
 	*i = g_glo.j;
 	free(g_glo.before);
 	g_glo.before = NULL;
+	free(g_glo.tmp);
+	g_glo.tmp = NULL;
 	return (g_glo.to_expand);
 }
 
@@ -56,6 +58,7 @@ char	*expand_the_var(int count)
 	}
 	else
 		g_glo.to_expand = f_join(g_glo.to_expand, g_glo.tmp);
+	
 	return (g_glo.to_expand);
 }
 

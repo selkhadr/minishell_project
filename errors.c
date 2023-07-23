@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:39:08 by mel-moun          #+#    #+#             */
-/*   Updated: 2023/07/21 17:54:39 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 18:56:55 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,11 @@ int	found_error_one(t_token **all)
 	if (closed_double_quotes(g_glo.line) || !g_glo.expanded)
 	{
 		error_message(1, all);
-		// system("leaks minishell | tail -2");
 		return (1);
 	}
-	if (g_glo.expanded[0] == '\0' || empty(g_glo.expanded) /*|| empty_and_not_empty()*/)
+	if (g_glo.expanded[0] == '\0' || empty(g_glo.expanded))
 	{
 		error_message(0, all);
-		// system("leaks minishell | tail -2");
 		return (1);
 	}
 	return (0);
@@ -34,7 +32,6 @@ int	found_error_two(t_token **all)
 	if (syntax_error_first(all))
 	{
 		error_message(1, all);
-		// system("leaks minishell | tail -2");
 		return (1);
 	}
 	return (0);
@@ -51,8 +48,8 @@ void	error_message(int err, t_token **all)
 	g_glo.line = NULL;
 	free(g_glo.expanded);
 	g_glo.expanded = NULL;
-	deallocating(all);
-	// system("leaks minishell | tail -2");
+	if (all)
+		deallocating(all);
 }
 
 int	empty_and_not_empty(void)

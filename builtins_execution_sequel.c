@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 20:20:31 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 15:39:57 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 20:09:30 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,22 @@
 
 void	chdir_fnct(t_all *all, int flag)
 {
+	char	*tmp;
+
+	tmp = expanded_value("HOME");
+	if (!tmp && flag == 1)
+	{
+		fd_printf(2, "minishell: cd: HOME not set\n");
+		g_glo.exitstatus = 1;
+		exit (1);
+	}
 	if (all->cmds[1] == NULL)
-		chdir(expanded_value("HOME"));
+		chdir(tmp);
 	else if (ft_strncmp(all->cmds[1], "~", ft_strlen(all->cmds[1])) == 0)
-		chdir(expanded_value("HOME"));
+		chdir(tmp);
 	else
 		chdir(all->cmds[1]);
+	free (tmp);
 	if (flag == 1)
 		exit (0);
 }
