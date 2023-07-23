@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/13 16:28:30 by mel-moun          #+#    #+#             */
-/*   Updated: 2023/07/23 14:54:43 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:06:58 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void	prompt(t_token **all, t_all **glo, char **envp)
 	signal (SIGQUIT, SIG_IGN);
 	while (1)
 	{
-		take_env(envp);
 		g_glo.line = readline("minishell> ");
 		if (g_glo.line == NULL)
 		{

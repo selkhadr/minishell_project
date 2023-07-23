@@ -6,7 +6,7 @@
 #    By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/02 19:04:47 by mel-moun          #+#    #+#              #
-#    Updated: 2023/07/23 13:57:31 by selkhadr         ###   ########.fr        #
+#    Updated: 2023/07/23 15:13:30 by selkhadr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ fd_printf=fd_printf/libftprintf.a
 libft=libft/libft.a
 LDFLAGS= -L/Users/selkhadr/.brew/opt/readline/lib
 CPPFLAGS= -I/Users/selkhadr/.brew/opt/readline/include
-CFLAGS=-g -fsanitize=address #-Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS=-Wall -Wextra -Werror -g -fsanitize=address
 ARGS =-Iinclude -lreadline -L /Users/selkhadr/.brew/opt/readline/lib -I /Users/selkhadr/.brew/opt/readline/include
 SRC= builtins_execution.c\
 	builtins_execution_sequel.c\

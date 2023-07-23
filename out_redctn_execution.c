@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 19:38:04 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/22 13:55:32 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:13:52 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void	out_redirect(t_all *all)
 void	dup_last_out(t_all *tmp, int n)
 {
 	int	fd;
-	DIR	*dir;
 
 	if (tmp->file_types[n] == REDIR_OUT)
 	{

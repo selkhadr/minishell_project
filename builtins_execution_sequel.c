@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 20:20:31 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 14:23:10 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:39:57 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	print_env(int flag) //extern
 	tmp = g_glo.env;
 	while (tmp)
 	{
-		printf("%s\n", tmp->env);
+		if (ft_strchr(tmp->env, '=') != NULL)
+			printf("%s\n", tmp->env);
 		tmp = tmp->next;
 	}
 	if (flag == 1)

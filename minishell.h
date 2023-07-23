@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 18:15:33 by mel-moun          #+#    #+#             */
-/*   Updated: 2023/07/23 14:41:51 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:14:09 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -216,7 +216,7 @@ void	ft_lstadd_back1(t_token **lst, t_token *new);
 t_token	*ft_lstnew1(char *content, int value);
 void	dollar_lhgar(t_token **all, char *s);
 void	deallocating(t_token **ptr);
-// void	deallocating_env(t_env **ptr);
+void	deallocating_env(t_env **ptr);
 void	deallocating1(t_all **ptr);
 int		whats_next(int check);
 int		syntax_error_first(t_token **all);
@@ -250,7 +250,7 @@ int		last_input(t_all *tmp);
 void	in_redirect(t_all *all);
 //path_execution file
 char	*normal_path(char *cmd, char *path);
-void	check_path(t_all *all, char **env);
+void	check_path(t_all *all);
 char	*path_with_slash(char *cmd);
 int		check_empty_cmd(char *str);
 //builtin_execution file

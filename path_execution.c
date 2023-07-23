@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 20:00:29 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 14:42:49 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:13:59 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*path_with_slash(char *cmd)
 	return (cmd);
 }
 
-void	check_path(t_all *all, char **env)
+void	check_path(t_all *all)
 {
 	if (!all || !all->cmds || !all->cmds[0])
 		return ;
@@ -56,7 +56,6 @@ void	check_path(t_all *all, char **env)
 			exit (127);
 		}
 	}
-	(void)env;
 }
 
 char	**normal_path_sequel(char *str, char *path)
@@ -67,7 +66,7 @@ char	**normal_path_sequel(char *str, char *path)
 	i = 0;
 	if (!path)
 	{
-		printf("%s\n", path);
+		// printf("%s\n", path);
 		fd_printf(2, "minishell: %s: No such file or directory\n", str);
 		exit (1);
 	}

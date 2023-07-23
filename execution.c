@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 19:27:29 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 14:09:33 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:14:17 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@ void	pipe_fnct(t_all *all)
 
 int	use_builtins_sequel(t_all *all)
 {
-	char	pwd[1000];
-
 	if (!all || !all->cmds || !all->cmds[0])
 		return (0);
 	if (all->cmds[0] && compare(all->cmds[0], "export") == 0 && all->cmds[1])
@@ -92,7 +90,7 @@ void	execution_fnct_sequel(t_all *all, char **env)
 		if (all->prev_pip != 0)
 			close(all->prev_pip);
 		use_builtins(all);
-		check_path(all, env);
+		check_path(all);
 		use_execve(all, env);
 	}
 	close_pipes(all);

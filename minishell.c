@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 18:15:15 by mel-moun          #+#    #+#             */
-/*   Updated: 2023/07/23 14:53:48 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 15:03:32 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(int ac, char **av, char **envp)
 	all = NULL;
 	globy = NULL;
 	g_glo.exitstatus = 0;
-	// take_env(envp);
+	take_env(envp);
 	prompt(&all, &globy, envp);
 	// deallocating_env(&env);
 	// system("leaks minishell");

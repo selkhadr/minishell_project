@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 20:02:23 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 14:21:09 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 16:37:46 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void unset_fnct_sequel(char *str)
 	temp = g_glo.env;
     while (temp != NULL) 
     {
-        if (ft_strncmp(temp->env, str, ft_strlen(str)) == 0)
+        if (mer_strncmp(temp->env, str, ft_strlen(str)) == 0)
             break;
         prev = temp;
         temp = temp->next;
@@ -80,6 +80,7 @@ void	unset_fnct(t_all *all, int flag)
 	if (flag == 1)
 		exit (0);
 }
+
 void    take_env(char **arr)
 {
     int    i;
@@ -119,6 +120,25 @@ t_env    *ft_lstnew(char *content)
     return (node);
 }
 
+int	valid_identifier(char *str)
+{
+	int	i;
+
+	i = 1;
+	if (str[0] != '_')
+	{
+		if (ft_isalpha(str[0]) == 0)
+			return (1);
+	}
+	while (str[i] && str[i] != '=')
+	{
+		if (!ft_isdigit(str[i]) && !ft_isalpha(str[i]) && str[i] != '_')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	export_fnct_sequel(t_all *all, int n)
 {
 	extern char		**environ;
@@ -128,8 +148,17 @@ void	export_fnct_sequel(t_all *all, int n)
 
 	i = 0;
 	tmp = g_glo.env;
-	var.variable = adrs_substr(all->\
-	cmds[n], 0, ft_strchr(all->cmds[n], '='));
+	if (valid_identifier(all->cmds[n]) == 1)
+	{
+		fd_printf(2, "minishell: export: %s: not a valid identifier\n", all->cmds[n]);
+		g_glo.exitstatus = 1;
+		return ;
+	} 
+	if (!ft_strchr(all->cmds[n], '='))
+		var.variable = ft_strdup(all->cmds[n]);
+	else
+		var.variable = adrs_substr(all->\
+		cmds[n], 0, ft_strchr(all->cmds[n], '='));
 	if (var.variable == NULL)
 		return ;
 	while (tmp)
