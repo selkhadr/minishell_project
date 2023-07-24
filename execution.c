@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 19:27:29 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 20:05:28 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/24 11:38:59 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,14 +104,34 @@ void	handler_fnct(int sig)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		g_glo.exitstatus = 1;//change to 130
+		g_glo.exitstatus = 1;
+	}
+}
+
+void	waiting_norm(t_all *glo)
+{
+	int	tmp;
+
+	if (compare(glo->cmds[0], "exit") == 0)
+	{
+		if (!glo->cmds[1])
+		{	
+			tmp = g_glo.exitstatus;
+			error_message(0, NULL);
+			exit (tmp);
+		}
+		else if (is_num(glo->cmds[1]) && !glo->cmds[2])
+		{
+			tmp = g_glo.exitstatus;
+			error_message(0, NULL);
+			exit (g_glo.exitstatus);
+		}
 	}
 }
 
 void	waiting_fnct(t_all *glo)
 {
 	int	status;
-	int	tmp;
 
 	while (glo)
 	{
@@ -122,23 +142,7 @@ void	waiting_fnct(t_all *glo)
 		{
 			g_glo.exitstatus = WEXITSTATUS(status);
 			if (glo->cmds != NULL)
-			{
-				if (compare(glo->cmds[0], "exit") == 0)
-				{
-					if (!glo->cmds[1])
-					{	
-						tmp = g_glo.exitstatus;
-						error_message(0, NULL);
-						exit (tmp);
-					}
-					else if (is_num(glo->cmds[1]) && !glo->cmds[2])
-					{
-						tmp = g_glo.exitstatus;
-						error_message(0, NULL);
-						exit (g_glo.exitstatus);
-					}
-				}
-			}
+				waiting_norm(glo);
 		}
 		else if (WIFSIGNALED(status))
 			g_glo.exitstatus = WTERMSIG(status) + 128;

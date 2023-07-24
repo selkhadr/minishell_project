@@ -6,7 +6,7 @@
 #    By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/06/02 19:04:47 by mel-moun          #+#    #+#              #
-#    Updated: 2023/07/23 19:12:04 by selkhadr         ###   ########.fr        #
+#    Updated: 2023/07/24 10:05:32 by selkhadr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,7 @@ $(libft):
 	make -C libft
 
 $(NAME): $(SRC) $(fd_printf) $(libft)
-	$(CC) $(CFLAGS) $(SRC) $(fd_printf) $(libft) $(ARGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(SRC) $(ARGS) $(fd_printf) $(libft) -o $(NAME)
 
 %.o:%.c
 	$(CC) $(CFLAGS) -c $< -o $@

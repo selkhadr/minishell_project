@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 10:04:18 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 18:17:24 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:20:17 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	free_double_ptr(char **ptr)
 void	use_execve(t_all *all, char **env)
 {
 	if (!all || !all->path || !all->cmds)
-		exit (0) ;
+		exit (0);
 	execve(all->path, all->cmds, env);
 	perror ("execve");
 	exit (g_glo.exitstatus);

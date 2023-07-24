@@ -8,3 +8,4 @@ minishell> cd Desktop/last_minishell
 minishell> pwd
 /Users/selkhadr/Desktop/last_minishell
 minishell> 
+Makefile .o in minishell.c

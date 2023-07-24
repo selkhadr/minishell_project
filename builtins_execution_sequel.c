@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 20:20:31 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 20:09:30 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:10:06 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,9 @@ void	chdir_fnct(t_all *all, int flag)
 		exit (0);
 }
 
-void	print_env(int flag) //extern
+//extern
+
+void	print_env(int flag)
 {
 	int			i;
 	t_env		*tmp;

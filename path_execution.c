@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 20:00:29 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 18:34:49 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:20:36 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ char	*path_with_slash(char *cmd)
 void	check_path(t_all *all)
 {
 	char	*tmp;
+
 	if (!all || !all->cmds || !all->cmds[0])
 		return ;
 	if (check_empty_cmd(all->cmds[0]))
@@ -57,7 +58,7 @@ void	check_path(t_all *all)
 	{
 		tmp = expanded_value("PATH");
 		all->path = normal_path(all->cmds[0], tmp);
-		if (!all->path) 
+		if (!all->path)
 		{
 			fd_printf(2, "minishell: %s: command not found\n", all->cmds[0]);
 			exit (127);
@@ -73,7 +74,6 @@ char	**normal_path_sequel(char *str, char *path)
 	i = 0;
 	if (!path)
 	{
-		// printf("%s\n", path);
 		fd_printf(2, "minishell: %s: No such file or directory\n", str);
 		exit (1);
 	}

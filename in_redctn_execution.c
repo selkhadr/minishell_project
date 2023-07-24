@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 19:56:41 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/22 13:29:43 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:16:42 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,8 @@ int	last_input(t_all *tmp)
 		{
 			if (access(tmp->file_names[i], F_OK) == -1)
 			{
-				fd_printf(2, "minishell: %s: No such file or directory\n", tmp->file_names[i]);
+				fd_printf(2, "minishell: %s: No such file or directory\n"\
+				, tmp->file_names[i]);
 				exit (1);
 			}
 		}
@@ -52,32 +53,36 @@ int	last_input(t_all *tmp)
 	return (last);
 }
 
+void	in_redirection_norm(t_all *tmp, int last_in)
+{
+	DIR	*dir;
+	int	fd;
+
+	dir = opendir(tmp->file_names[last_in]);
+	if (dir != NULL)
+	{
+		fd_printf(2, "cat: stdin: Is a directory\n");
+		closedir(dir);
+		exit (1);
+	}
+	fd = open(tmp->file_names[last_in], O_RDWR, 0644);
+	if (fd == -1)
+		exit (1);
+	dup2(fd, STDIN_FILENO);
+	close (fd);
+}
+
 void	in_redirect(t_all *all)
 {
 	t_all	*tmp;
-	int		fd;
 	int		last_in;
-	DIR		*dir;
 
 	tmp = all;
 	if (check_redirct(tmp, REDIR_IN) || check_redirct(tmp, HEREDOC))
 	{
 		last_in = last_input(tmp);
 		if (tmp->file_types[last_in] == REDIR_IN)
-		{
-			dir = opendir(tmp->file_names[last_in]);
-			if (dir != NULL)
-			{
-            	fd_printf(2, "cat: stdin: Is a directory\n");
-        		closedir(dir);
-				exit (1);
-			}
-			fd = open(tmp->file_names[last_in], O_RDWR, 0644);
-			if (fd == -1)
-				exit (1);
-			dup2(fd, STDIN_FILENO);
-			close (fd);
-		}
+			in_redirection_norm(all, last_in);
 		else
 		{
 			dup2(tmp->fd, STDIN_FILENO);

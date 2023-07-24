@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 19:38:04 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 15:13:52 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/23 22:17:13 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,18 +45,18 @@ void	dup_last_out(t_all *tmp, int n)
 	}
 }
 
-void	creat_outfile_sequel(t_all *all, int *last, int i)
+void	creat_outfil_norm(t_all *all, int *last, int i)
 {
-	int	fd;
 	DIR	*dir;
+	int	fd;
 
 	if (all->file_types[i] == REDIR_OUT)
 	{
 		dir = opendir(all->file_names[i]);
 		if (dir != NULL)
 		{
-        	print_error(all->file_names[i], ": Is a directory\n", 1);
-    		closedir(dir);
+			print_error(all->file_names[i], ": Is a directory\n", 1);
+			closedir(dir);
 			exit (1);
 		}
 		fd = open(all->file_names[i], O_RDWR | O_CREAT | O_TRUNC, 0644);
@@ -65,13 +65,21 @@ void	creat_outfile_sequel(t_all *all, int *last, int i)
 		close (fd);
 		*last = i;
 	}
-	else if (all->file_types[i] == APPEND)
+}
+
+void	creat_outfile_sequel(t_all *all, int *last, int i)
+{
+	int	fd;
+	DIR	*dir;
+
+	creat_outfil_norm(all, &(*last), i);
+	if (all->file_types[i] == APPEND)
 	{
 		dir = opendir(all->file_names[i]);
 		if (dir != NULL)
 		{
-        	print_error(all->file_names[i], ": Is a directory\n", 1);
-    		closedir(dir);
+			print_error(all->file_names[i], ": Is a directory\n", 1);
+			closedir(dir);
 			exit (1);
 		}
 		fd = open(all->file_names[i], O_RDWR | O_CREAT | O_APPEND, 0644);
@@ -94,7 +102,8 @@ int	creat_outfile(t_all *all)
 		{
 			if (access(all->file_names[i], F_OK) == -1)
 			{
-				fd_printf(2, "minishell: %s: No such file or directory\n", all->file_names[i]);
+				fd_printf(2, "minishell: %s: No such file or directory\n"\
+				, all->file_names[i]);
 				exit (1);
 			}
 		}

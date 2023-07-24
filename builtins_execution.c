@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 20:02:23 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 21:04:48 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/24 13:06:21 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,13 @@ char	*adrs_substr(char *s, int start, char *t)
 	int		len;
 
 	i = 0;
+	if (!t)
+		return (ft_strdup(s));
 	len = t - s;
-	if (!s || !t)
+	if (!s)
 		return (NULL);
 	if (start >= (int)ft_strlen(s))
-	{
-		p = malloc(1);
-		p[0] = 0;
-		return (p);
-	}
+		return (ft_calloc(1, 1));
 	if ((int)ft_strlen(s) < len)
 		p = (char *)malloc(sizeof(char) * (ft_strlen(s) - start + 1));
 	else
@@ -45,10 +43,10 @@ char	*adrs_substr(char *s, int start, char *t)
 void	unset_norm(char *str)
 {
 	fd_printf(2, "minishell: export: %s: not a valid identifier\n", str);
-	g_glo.exitstatus = 1;	
+	g_glo.exitstatus = 1;
 }
 
-void unset_fnct_sequel(char *str)
+void	unset_fnct_sequel(char *str)
 {
 	t_env	*temp;
 	t_env	*prev;
@@ -93,41 +91,41 @@ void	unset_fnct(t_all *all, int flag)
 
 void	take_env(char **arr)
 {
-	int    i;
+	int	i;
 
-    i = 0;
-    while (arr[i])
-    {
-        ft_lstadd_back(ft_lstnew(arr[i]));
-        i++;
-    }
+	i = 0;
+	while (arr[i])
+	{
+		ft_lstadd_back(ft_lstnew(arr[i]));
+		i++;
+	}
 }
 
-void    ft_lstadd_back(t_env *new)
+void	ft_lstadd_back(t_env *new)
 {
 	t_env	*tmp;
 
 	tmp = g_glo.env;
-    if (g_glo.env == NULL)
-    {
-        g_glo.env = new;
-        return ;
-    }
-    while (tmp->next != NULL)
-        tmp = tmp->next;
-    tmp->next = new;
+	if (g_glo.env == NULL)
+	{
+		g_glo.env = new;
+		return ;
+	}
+	while (tmp->next != NULL)
+		tmp = tmp->next;
+	tmp->next = new;
 }
 
-t_env    *ft_lstnew(char *content)
+t_env	*ft_lstnew(char *content)
 {
-    t_env    *node;
+	t_env	*node;
 
-    node = malloc(sizeof(t_env));
-    if (!node)
-        return (NULL);
-    node->env = ft_strdup(content);
-    node->next = NULL;
-    return (node);
+	node = malloc(sizeof(t_env));
+	if (!node)
+		return (NULL);
+	node->env = ft_strdup(content);
+	node->next = NULL;
+	return (node);
 }
 
 int	valid_identifier(char *str)
@@ -149,21 +147,40 @@ int	valid_identifier(char *str)
 	return (0);
 }
 
+void	export_fnct_norm(void)
+{
+	t_env	*tmp;
+	char	*key;
+	char	*value;
+
+	tmp = g_glo.env;
+	key = NULL;
+	while (tmp)
+	{
+		if (!ft_strchr(tmp->env, '='))
+			printf("declare -x %s\n", tmp->env);
+		else
+		{
+			key = adrs_substr(tmp->env, 0, ft_strchr(tmp->env, '='));
+			printf("declare -x %s", key);
+			value = expanded_value(key);
+			printf("=\"%s\"\n", value);
+			free (value);
+			value = NULL;
+			free (key);
+			key = NULL;
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	export_fnct(t_all *all, int flag)
 {
 	int		i;
-	t_env	*tmp;
 
 	i = 1;
-	tmp = g_glo.env;
 	if (!all->cmds[1])
-	{
-		while (tmp)
-		{
-			printf("declare -x %s\n", tmp->env);
-			tmp = tmp->next;
-		}
-	}
+		export_fnct_norm();
 	else
 	{
 		while (all->cmds[i])
@@ -176,25 +193,35 @@ void	export_fnct(t_all *all, int flag)
 		exit (0);
 }
 
-int	export_norm(t_export_var *var, t_all **all, int n)
+int	export_norm(t_export_var *var, t_all *all, int n)
 {
-	if (valid_identifier((*all)->cmds[n]) == 1)
+	if (valid_identifier(all->cmds[n]) == 1)
 	{
-		fd_printf(2, "minishell: export: %s: not a valid identifier\n", (*all)->cmds[n]);
+		fd_printf(2, "minishell: export: %s: not a valid identifier\n"\
+		, all->cmds[n]);
 		g_glo.exitstatus = 1;
 		return (1);
 	}
-	if (!ft_strchr((*all)->cmds[n], '='))
-		var->variable = ft_strdup((*all)->cmds[n]);
+	if (!ft_strchr(all->cmds[n], '='))
+		var->variable = ft_strdup(all->cmds[n]);
 	else
-		var->variable = adrs_substr((*all)->\
-		cmds[n], 0, ft_strchr((*all)->cmds[n], '='));
+		var->variable = adrs_substr(all->\
+		cmds[n], 0, ft_strchr(all->cmds[n], '='));
 	if (var->variable == NULL)
 		return (1);
 	return (0);
 }
 
-// void	export_norm_two(char *env, )
+void	export_norm_two(char **env, t_export_var *var, t_all *all, int n)
+{
+	free ((*env));
+	(*env) = NULL;
+	(*env) = ft_strdup(all->cmds[n]);
+	free(var->var);
+	var->var = NULL;
+	free(var->variable);
+	var->variable = NULL;
+}
 
 void	export_fnct_sequel(t_all *all, int n)
 {
@@ -205,21 +232,15 @@ void	export_fnct_sequel(t_all *all, int n)
 
 	i = 0;
 	tmp = g_glo.env;
-	if (export_norm(&var, &all, n) == 1)
+	if (export_norm(&var, all, n) == 1)
 		return ;
 	while (tmp)
 	{
 		var.var = \
 		adrs_substr(tmp->env, 0, ft_strchr(tmp->env, '='));
-		if (ft_strncmp(var.var, var.variable, (int)ft_strlen(var.variable)) == 0)
+		if (compare(var.var, var.variable) == 0)
 		{
-			free (tmp->env);
-			tmp->env = NULL;
-			tmp->env = ft_strdup(all->cmds[n]);
-			free(var.var);
-			var.var = NULL;
-			free(var.variable);
-			var.variable = NULL;
+			export_norm_two(&tmp->env, &var, all, n); 
 			return ;
 		}
 		free (var.var);
@@ -230,4 +251,3 @@ void	export_fnct_sequel(t_all *all, int n)
 	var.variable = NULL;
 	ft_lstadd_back(ft_lstnew(all->cmds[n]));
 }
-
