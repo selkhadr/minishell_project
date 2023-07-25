@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 20:00:29 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 22:20:36 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/24 20:09:27 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,16 @@ char	*path_with_slash(char *cmd)
 {
 	if (access(cmd, F_OK) == -1)
 	{
-		fd_printf(2, "minishell: %s: No such file or directory\n", cmd);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		exit (127);
 	}
 	if (access(cmd, X_OK) == -1)
 	{
-		fd_printf(2, "minishell: %s: Permission denied\n", cmd);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": Permission denied\n", 2);
 		exit (126);
 	}
 	return (cmd);
@@ -49,7 +53,9 @@ void	check_path(t_all *all)
 		return ;
 	if (check_empty_cmd(all->cmds[0]))
 	{
-		fd_printf(2, "minishell: %s: command not found\n", all->cmds[0]);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(all->cmds[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
 		exit (127);
 	}
 	if (ft_strchr(all->cmds[0], '/'))
@@ -60,7 +66,9 @@ void	check_path(t_all *all)
 		all->path = normal_path(all->cmds[0], tmp);
 		if (!all->path)
 		{
-			fd_printf(2, "minishell: %s: command not found\n", all->cmds[0]);
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(all->cmds[0], 2);
+			ft_putstr_fd(": command not found\n", 2);
 			exit (127);
 		}
 	}
@@ -74,7 +82,9 @@ char	**normal_path_sequel(char *str, char *path)
 	i = 0;
 	if (!path)
 	{
-		fd_printf(2, "minishell: %s: No such file or directory\n", str);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd(": No such file or directory\n", 2);
 		exit (1);
 	}
 	paths = ft_split(path, ':');

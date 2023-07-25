@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/18 11:52:08 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 22:12:58 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/24 22:16:25 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,7 @@ int	is_num(char *ptr)
 void	exit_norm(t_all *all)
 {
 	if (all->cmds[1] == NULL)
-	{
-		printf("exit\n");
-		exit (0);
-	}
+		exit (g_glo.exitstatus);
 	if (is_num(all->cmds[1]) && !all->cmds[2])
 	{
 		printf("exit\n");
@@ -66,25 +63,20 @@ void	exit_norm(t_all *all)
 	}
 }
 
-void	exit_fnct(t_all *all)
+int	exit_fnct(t_all *all)
 {
-	int	i;
-
-	i = 0;
 	exit_norm(all);
-	if (all->cmds[2] != NULL)
+	if (is_num(all->cmds[1]) && all->cmds[2])
 	{
-		print_error(NULL, "exit\nminishell: exit: too many arguments\n", 0);
-		exit (1);
+		ft_putstr_fd("exit\nminishell: exit: too many arguments\n", 2);
+		return (1);
 	}
-	while (all->cmds[1][i])
+	else if (is_num(all->cmds[1]) == 0)
 	{
-		if (!(all->cmds[1][i] >= '0' && all->cmds[1][i] <= '9'))
-		{
-			fd_printf(2, "exit\nminishell: exit: ");
-			print_error(all->cmds[1], ": numeric argument required\n", 0);
-			exit (1);
-		}
-		i++;
+		ft_putstr_fd("exit\nminishell: exit: ", 2);
+		ft_putstr_fd(all->cmds[1], 2);
+		ft_putstr_fd(": numeric argument required\n", 2);
+		exit (255);
 	}
+	return (0);
 }

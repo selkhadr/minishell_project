@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 19:56:41 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 22:16:42 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:04:17 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,9 @@ int	last_input(t_all *tmp)
 		{
 			if (access(tmp->file_names[i], F_OK) == -1)
 			{
-				fd_printf(2, "minishell: %s: No such file or directory\n"\
-				, tmp->file_names[i]);
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(tmp->file_names[i], 2);
+				ft_putstr_fd(": No such file or directory\n", 2);
 				exit (1);
 			}
 		}
@@ -61,7 +62,7 @@ void	in_redirection_norm(t_all *tmp, int last_in)
 	dir = opendir(tmp->file_names[last_in]);
 	if (dir != NULL)
 	{
-		fd_printf(2, "cat: stdin: Is a directory\n");
+		ft_putstr_fd("cat: stdin: Is a directory\n", 2);
 		closedir(dir);
 		exit (1);
 	}

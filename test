@@ -1,0 +1,73 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Function to remove a node from the linked list
+void removeNode(Node** head, int key) {
+    if (*head == NULL)
+        return;
+
+    Node* current = *head;
+    Node* prev = NULL;
+    while (current != NULL && current->data != key) {
+        prev = current;
+        current = current->next;
+    }
+    if (current == NULL)
+        return;
+    if (prev != NULL)
+        prev->next = current->next;
+    else
+        *head = current->next;
+    free(current);
+}
+
+// Function to create a new node
+Node* newNode(int data) {
+    Node* new_node = (Node*)malloc(sizeof(Node));
+    new_node->data = data;
+    new_node->next = NULL;
+    return new_node;
+}
+
+// Function to print the linked list
+void printList(Node* head) {
+    Node* current = head;
+    while (current != NULL) {
+        printf("%d -> ", current->data);
+        current = current->next;
+    }
+    printf("NULL\n");
+}
+
+// Function to free the memory used by the linked list
+void freeList(Node** head) {
+    Node* current = *head;
+    Node* next;
+    while (current != NULL) {
+        next = current->next;
+        free(current);
+        current = next;
+    }
+    *head = NULL;
+}
+
+int main() {
+    Node* head = newNode(1);
+    head->next = newNode(2);
+    head->next->next = newNode(3);
+    head->next->next->next = newNode(4);
+
+    printf("Original linked list: ");
+    printList(head);
+
+    int key_to_remove = 2;
+    removeNode(&head, key_to_remove);
+
+    printf("Linked list after removing %d: ", key_to_remove);
+    printList(head);
+
+    // Free the memory used by the linked list
+    freeList(&head);
+
+    return 0;
+}

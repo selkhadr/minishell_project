@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 19:27:29 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/24 11:38:59 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:42:25 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 void	pipe_fnct(t_all *all)
 {
 	if (all->next)
-		all->next->prev_pip = 0;
-	if (all->next)
 	{
+		all->next->prev_pip = 0;
 		if (pipe(all->pip) == -1)
 			exit (-1);
 		all->next->prev_pip = all->pip[READ];
@@ -43,6 +42,8 @@ int	use_builtins_sequel(t_all *all)
 		chdir_fnct(all, 0);
 		return (0);
 	}
+	else if (compare(all->cmds[0], "exit") == 0)
+		return (exit_fnct(all));
 	return (0);
 }
 
@@ -52,8 +53,6 @@ void	use_builtins(t_all *all)
 
 	if (!all || !all->cmds || !all->cmds[0])
 		return ;
-	if (compare(all->cmds[0], "exit") == 0)
-		exit_fnct(all);
 	else if (compare(all->cmds[0], "export") == 0)
 		export_fnct(all, 1);
 	else if (compare(all->cmds[0], "unset") == 0)
@@ -64,7 +63,7 @@ void	use_builtins(t_all *all)
 		echo_fnct(all, 1);
 	else if (compare(all->cmds[0], "pwd") == 0)
 	{
-		if (getcwd(pwd, sizeof(pwd)) != NULL)
+		if (getcwd(pwd, PATH_MAX) != NULL)
 			printf("%s\n", pwd);
 		exit (0);
 	}
@@ -114,17 +113,18 @@ void	waiting_norm(t_all *glo)
 
 	if (compare(glo->cmds[0], "exit") == 0)
 	{
+		printf("ddd = %d\n", g_glo.exitstatus);
 		if (!glo->cmds[1])
 		{	
-			tmp = g_glo.exitstatus;
+			tmp = g_glo.old_exitstatus;
 			error_message(0, NULL);
 			exit (tmp);
 		}
-		else if (is_num(glo->cmds[1]) && !glo->cmds[2])
+		if ((is_num(glo->cmds[1]) && !glo->cmds[2]) || !is_num(glo->cmds[1]))
 		{
 			tmp = g_glo.exitstatus;
 			error_message(0, NULL);
-			exit (g_glo.exitstatus);
+			exit (tmp);
 		}
 	}
 }
@@ -133,6 +133,7 @@ void	waiting_fnct(t_all *glo)
 {
 	int	status;
 
+	g_glo.old_exitstatus = g_glo.exitstatus;
 	while (glo)
 	{
 		waitpid(glo->pid, &status, 0);
@@ -171,6 +172,7 @@ void	execution_fnct(t_all *glo, char **env)
 		execution_fnct_sequel(tmp, env);
 		tmp = tmp->next;
 	}
-	close_heredoc(glo);
-	waiting_fnct(glo);
+	tmp = glo;
+	close_heredoc(tmp);
+	waiting_fnct(tmp);
 }

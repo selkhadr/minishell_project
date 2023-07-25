@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/02 18:15:33 by mel-moun          #+#    #+#             */
-/*   Updated: 2023/07/23 21:00:38 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/25 11:42:14 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <fcntl.h>
 # include "libft/libft.h"
 # include "fd_printf/fd_printf.h"
+# include <limits.h>
 
 # define WRIT 1
 # define READ 0
@@ -59,6 +60,7 @@ typedef struct s_token
 typedef struct s_struct
 {
 	int			exitstatus;
+	int			old_exitstatus;
 	int			i;
 	int			j;
 	int			doubleq;
@@ -281,7 +283,7 @@ void	handler_fnct(int sig);
 
 
 int		is_num(char *ptr);
-void	exit_fnct(t_all *all);
+int		exit_fnct(t_all *all);
 
 void    take_env(char **arr);
 void    ft_lstadd_back(t_env *new);

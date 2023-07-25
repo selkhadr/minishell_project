@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/04 20:02:23 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/24 13:06:21 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/25 12:00:45 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,41 +38,48 @@ char	*adrs_substr(char *s, int start, char *t)
 	return (p);
 }
 
-//problem in deleting the last three elements of env 
-
 void	unset_norm(char *str)
 {
-	fd_printf(2, "minishell: export: %s: not a valid identifier\n", str);
+	ft_putstr_fd("minishell: export: ", 2);
+	ft_putstr_fd(str, 2);
+	ft_putstr_fd(": not a valid identifier\n", 2);
 	g_glo.exitstatus = 1;
 }
 
-void	unset_fnct_sequel(char *str)
+void	unset_norm_two(t_env *temp, t_env *prev)
 {
-	t_env	*temp;
-	t_env	*prev;
-
-	prev = NULL;
-	temp = g_glo.env;
-	if (valid_identifier(str) == 1)
-	{
-		unset_norm(str);
-		return ;
-	}
-	while (temp != NULL)
-	{
-		if (mer_strncmp(temp->env, str, ft_strlen(str)) == 0)
-			break ;
-		prev = temp;
-		temp = temp->next;
-	}
-	if (temp == NULL)
-		return ;
 	if (prev != NULL)
 		prev->next = temp->next;
 	else
 		g_glo.env = temp->next;
 	free(temp->env);
 	free(temp);
+}
+
+void	unset_fnct_sequel(char *str)
+{
+	t_env	*temp;
+	t_env	*prev;
+	char	*tmp;
+
+	temp = g_glo.env;
+	prev = NULL;
+	tmp = NULL;
+	while (temp != NULL)
+	{
+		tmp = adrs_substr(temp->env, 0, ft_strchr(temp->env, '='));
+		if (compare(tmp, str) == 0)
+		{
+			free (tmp);
+			break ;
+		}
+		free (tmp);
+		prev = temp;
+		temp = temp->next;
+	}
+	if (temp == NULL)
+		return ;
+	unset_norm_two(temp, prev);
 }
 
 void	unset_fnct(t_all *all, int flag)
@@ -197,8 +204,9 @@ int	export_norm(t_export_var *var, t_all *all, int n)
 {
 	if (valid_identifier(all->cmds[n]) == 1)
 	{
-		fd_printf(2, "minishell: export: %s: not a valid identifier\n"\
-		, all->cmds[n]);
+		ft_putstr_fd("minishell: export: ", 2);
+		ft_putstr_fd(all->cmds[n], 2);
+		ft_putstr_fd(": not a valid identifier\n", 2);
 		g_glo.exitstatus = 1;
 		return (1);
 	}
@@ -223,6 +231,13 @@ void	export_norm_two(char **env, t_export_var *var, t_all *all, int n)
 	var->variable = NULL;
 }
 
+void	export_norm_three(t_all *all, int n, t_export_var *var)
+{
+	free (var->variable);
+	var->variable = NULL;
+	ft_lstadd_back(ft_lstnew(all->cmds[n]));
+}
+
 void	export_fnct_sequel(t_all *all, int n)
 {
 	extern char		**environ;
@@ -238,16 +253,16 @@ void	export_fnct_sequel(t_all *all, int n)
 	{
 		var.var = \
 		adrs_substr(tmp->env, 0, ft_strchr(tmp->env, '='));
+		if (!ft_strchr(all->cmds[n], '=') && expanded_value(all->cmds[n]))
+			return ;
 		if (compare(var.var, var.variable) == 0)
 		{
-			export_norm_two(&tmp->env, &var, all, n); 
+			export_norm_two(&tmp->env, &var, all, n);
 			return ;
 		}
 		free (var.var);
 		var.var = NULL;
 		tmp = tmp->next;
 	}
-	free (var.variable);
-	var.variable = NULL;
-	ft_lstadd_back(ft_lstnew(all->cmds[n]));
+	export_norm_three(all, n, &var);
 }

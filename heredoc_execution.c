@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/14 09:51:40 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/24 13:12:41 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/24 21:17:29 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ void	heredoc_fnction(t_all *all)
 	int		i;
 	int		prev;
 
-	g_glo.exitstatus = 0;
+	// g_glo.exitstatus = 0;
 	while (all)
 	{
 		i = 0;

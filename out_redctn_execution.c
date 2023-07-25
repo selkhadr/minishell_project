@@ -6,7 +6,7 @@
 /*   By: selkhadr <selkahdr@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/17 19:38:04 by selkhadr          #+#    #+#             */
-/*   Updated: 2023/07/23 22:17:13 by selkhadr         ###   ########.fr       */
+/*   Updated: 2023/07/24 17:31:27 by selkhadr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ void	creat_outfil_norm(t_all *all, int *last, int i)
 		dir = opendir(all->file_names[i]);
 		if (dir != NULL)
 		{
-			print_error(all->file_names[i], ": Is a directory\n", 1);
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(all->file_names[i], 2);
+			ft_putstr_fd(": Is a directory\n", 2);
 			closedir(dir);
 			exit (1);
 		}
@@ -78,7 +80,9 @@ void	creat_outfile_sequel(t_all *all, int *last, int i)
 		dir = opendir(all->file_names[i]);
 		if (dir != NULL)
 		{
-			print_error(all->file_names[i], ": Is a directory\n", 1);
+			ft_putstr_fd("minishell: ", 2);
+			ft_putstr_fd(all->file_names[i], 2);
+			ft_putstr_fd(": Is a directory\n", 2);
 			closedir(dir);
 			exit (1);
 		}
@@ -102,8 +106,9 @@ int	creat_outfile(t_all *all)
 		{
 			if (access(all->file_names[i], F_OK) == -1)
 			{
-				fd_printf(2, "minishell: %s: No such file or directory\n"\
-				, all->file_names[i]);
+				ft_putstr_fd("minishell: ", 2);
+				ft_putstr_fd(all->file_names[i], 2);
+				ft_putstr_fd(": No such file or directory\n", 2);
 				exit (1);
 			}
 		}
@@ -111,17 +116,4 @@ int	creat_outfile(t_all *all)
 		i++;
 	}
 	return (last);
-}
-
-void	print_error(char *str, char *s2, int flag)
-{
-	if (flag)
-		fd_printf(2, "minishell: ");
-	if (str == NULL)
-		fd_printf(2, s2, ft_strlen(s2));
-	else
-	{
-		fd_printf(2, str, ft_strlen(str));
-		fd_printf(2, s2, ft_strlen(s2));
-	}
 }
